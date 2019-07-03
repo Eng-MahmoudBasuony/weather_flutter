@@ -1,15 +1,14 @@
 
-
 class Coord {
   final double lon;
 
-  final double lat;
+  final int lat;
 
   Coord({this.lon, this.lat});
 
   factory Coord.fromJson(Map<String, dynamic> json) {
     return Coord(
-        lat: double.parse(json["lat"]), lon: double.parse(json["lon"]));
+        lat:  json["lat"] , lon: json["lon"]);
   }
 }
 class Weather {
@@ -35,7 +34,7 @@ class Main {
   final double pressure;
 
   final int humidity;
-
+  final double temp;
   final double temp_min;
 
   final double temp_max;
@@ -43,21 +42,23 @@ class Main {
   final double grnd_level;
 
   Main(
-      {this.sea_level,
-      this.pressure,
-      this.humidity,
-      this.temp_min,
-      this.temp_max,
-      this.grnd_level});
+      {this.temp,
+        this.sea_level,
+        this.pressure,
+        this.humidity,
+        this.temp_min,
+        this.temp_max,
+        this.grnd_level});
 
   factory Main.fromJson(Map<String, dynamic> json) {
     return Main(
-        temp_min: double.parse(json["temp_min"]),
-        temp_max: double.parse(json["temp_max"]),
-        sea_level: json["sea_level"] == null ? 0.0 : json["sea_level"],
+        temp_min: json["temp_min"],
+        temp_max:json["temp_max"],
+        sea_level: json["sea_level"]== null ? 0.0 : json["sea_level"],
         grnd_level: json["grnd_level"] == null ? 0.0 : json["grnd_level"],
-        pressure: double.parse(json["pressure"]),
-        humidity: json["humidity"]);
+        pressure: json["pressure"],
+        humidity: json["humidity"] ,
+        temp: json["temp"]);
   }
 }
 class Wind {
@@ -69,7 +70,7 @@ class Wind {
 
   factory Wind.fromJson(Map<String, dynamic> json) {
     return Wind(
-        speed: double.parse(json["speed"]), deg: double.parse(json["deg"]));
+        speed: double.parse(json["speed"].toString()), deg: double.parse(json["deg"].toString()));
   }
 }
 class Clouds {
@@ -118,42 +119,42 @@ class WeatherModel {
 
   WeatherModel(
       {this.coord,
-      this.weather,
-      this.base,
-      this.main,
-      this.visibility,
-      this.wind,
-      this.clouds,
-      this.dt,
-      this.sys,
-      this.timezone,
-      this.id,
-      this.name,
-      this.cod});
-  
-  
-  
-   factory WeatherModel.fromJson(Map<String,dynamic>json)
-   {
-     return WeatherModel(
-       coord: Coord.fromJson(json["coord"]),
-       weather: (json["weather"] as List).map((item)=>Weather.fromJson(item)).toList(),
-       base: json["base"],
-       main: Main.fromJson(json["main"]),
-       wind: Wind.fromJson(json["wind"]),
-       clouds: Clouds.fromJson(json["clouds"]) ,
-       sys: Sys.fromJson(json["sys"]),
-       id: json["id"],
-       cod: json["cod"],
-       dt: json["dt"],
-       timezone:json["timezone"] ,
-       visibility:json["visibility"] ,
-       name: json["name"],
-     );
-   }
+        this.weather,
+        this.base,
+        this.main,
+        this.visibility,
+        this.wind,
+        this.clouds,
+        this.dt,
+        this.sys,
+        this.timezone,
+        this.id,
+        this.name,
+        this.cod});
 
 
- /// "coord":{"lon":139,"lat":35}
+
+  factory WeatherModel.fromJson(Map<String,dynamic>json)
+  {
+    return WeatherModel(
+      coord: Coord.fromJson(json["coord"]),
+      weather: (json["weather"] as List).map((item)=>Weather.fromJson(item)).toList(),
+      base: json["base"],
+      main: Main.fromJson(json["main"]),
+      wind: Wind.fromJson(json["wind"]),
+      clouds: Clouds.fromJson(json["clouds"]) ,
+      sys: Sys.fromJson(json["sys"]),
+      id: json["id"],
+      cod: json["cod"],
+      dt: json["dt"],
+      timezone:json["timezone"] ,
+      visibility:json["visibility"] ,
+      name: json["name"],
+    );
+  }
+
+
+/// "coord":{"lon":139,"lat":35}
 ///"weather":[{"id":701,"main":"Mist","description":"mist","icon":"50n"}]
 ///"base":"stations"
 ///"main":{"temp":298.98,"pressure":1011,"humidity":88,"temp_min":297.15,"temp_max":300.37}
