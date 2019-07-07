@@ -1,8 +1,10 @@
 import 'package:http/http.dart' show Client;
+import 'package:weather_flutter/model/weather.dart';
+import 'package:weather_flutter/model/weather_mapper.dart';
 import 'dart:convert';
-import 'weather.dart';
-import 'weather_use_case.dart';
-import 'weather_mapper.dart';
+
+import 'package:weather_flutter/model/weather_use_case.dart';
+
 
 class OpenWeatherCurrentService implements WeatherService{
 
