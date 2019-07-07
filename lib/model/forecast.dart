@@ -1,4 +1,5 @@
-import 'package:weatherapp/weather/weather.dart';
+
+import 'package:weather_flutter/model/weather.dart';
 
 class Forecast {
 
