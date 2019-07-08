@@ -3,65 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:weather_flutter/Utilities/Utilities.dart';
 import 'package:weather_flutter/model/weather.dart';
-import 'package:weather_flutter/model/weather_result.dart';
-import 'package:weather_flutter/model/weather_use_case.dart';
-import 'package:weather_flutter/pages/ForecastPage.dart';
 
-class HomeWeather extends StatefulWidget {
-  final WeatherUseCase weatherUseCase;
+class WeatherPage extends StatefulWidget {
 
-  HomeWeather({Key key, this.weatherUseCase}) : super(key: key);
-
-  @override
-  _HomeWeatherState createState() => _HomeWeatherState();
-}
-
-class _HomeWeatherState extends State<HomeWeather> {
-
-
-  @override
-  Widget build(BuildContext context)
-  {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.lightBlueAccent));
-
-
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Center(child: Text("Weather the Day",style: TextStyle(color: Colors.indigoAccent,fontSize: 25),)),
-        ),
-        body: Center(
-          child: FutureBuilder<WeatherResult>(
-            future: widget.weatherUseCase.get(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                WeatherResult weatherResult = snapshot.data;
-                return ContentPage(weather: weatherResult.weather,weatherResult: weatherResult,);
-              } else if (snapshot.hasError) {
-                return Text(
-                  "${snapshot.error}",
-                );
-              }
-              return CircularProgressIndicator();
-            },
-          ),
-        ));
-  }
-}
-
-class ContentPage extends StatefulWidget {
   final Weather weather;
-  final  WeatherResult weatherResult;
 
-  ContentPage({this.weather,this.weatherResult});
+  WeatherPage({this.weather});
 
   @override
-  _ContentPageState createState() => _ContentPageState();
+  _WeatherPageState createState() => _WeatherPageState();
 }
 
-class _ContentPageState extends State<ContentPage> {
+class _WeatherPageState extends State<WeatherPage> {
 
 
   @override
@@ -85,33 +38,25 @@ class _ContentPageState extends State<ContentPage> {
     );
 
     return Scaffold(
-        body: Container(
-          color:Colors.white70,
-          //decoration:BoxDecoration(image: DecorationImage(image:AssetImage('assets/back.png'),fit: BoxFit.cover)),
-          child: Column(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Center(
+          child: Text("Day "+Utilities.dateTime(widget.weather.dateTime),
+            style: TextStyle(
+                fontSize: 25,
+                color: Colors.indigo,
+                fontWeight:FontWeight.bold
+            )),
+        ),),
+      body: Container(
+        color:Colors.white70,
+        //decoration:BoxDecoration(image: DecorationImage(image:AssetImage('assets/back.png'),fit: BoxFit.cover)),
+        child: Column(
           children: <Widget>[
 
-            //-------------Date----------------//
 
-            Text(Utilities.date(widget.weather.dateTime),
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black87,
-                )),
-            SizedBox(
-              height: 15,
-            ),
-    //--------------------City--------------------------//
-            Text(
-              widget.weather.name,
-              style: TextStyle(
-                fontSize: 50,
-                color: Colors.indigoAccent,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 25,),
             //--------------temperature-------------//
 
             Text(widget.weather.temperature.toString() + "°C",
@@ -119,15 +64,15 @@ class _ContentPageState extends State<ContentPage> {
                   fontSize: 40,
                   color: Colors.blue,
                 )),
-
-           //--------------Image-------------------//
+            SizedBox(height: 20,),
+            //--------------Image-------------------//
             Hero(
                 tag: 'hero',
                 child:
-                    Image.asset('assets/${widget.weather.icon}.png', width:150,height: 150,)),
+                Image.asset('assets/${widget.weather.icon}.png', width:200,height: 200,)),
 
             SizedBox(height: 10),
-           //--------------description-------------------//
+            //--------------description-------------------//
             Text(widget.weather.description,style: TextStyle(fontSize: 25,color: Colors.indigoAccent,
                 fontWeight: FontWeight.w600 )),
 
@@ -176,9 +121,9 @@ class _ContentPageState extends State<ContentPage> {
                     children: <Widget>[
                       Text("Pressure",
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.green
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.green
                           )),
                       SizedBox(height: 12),
                       Text(widget.weather.pressure.toString(),
@@ -208,9 +153,9 @@ class _ContentPageState extends State<ContentPage> {
                     children: <Widget>[
                       Text("Humidity",
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.green
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.green
                           )),
                       SizedBox(height: 12),
                       Text(widget.weather.humidity.toString(),
@@ -237,16 +182,12 @@ class _ContentPageState extends State<ContentPage> {
             ),
 
           ],
-      ),
         ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.lightBlueAccent,
-        label: Text("ForecastPage",style: TextStyle(color: Colors.black,fontSize: 17),),
-        onPressed: ()
-        {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>ForecastPage(forecast: widget.weatherResult.forecast)));
-        },
       ),
+
     );
   }
+
 }
+
+
