@@ -22,7 +22,9 @@ class _HomeWeatherState extends State<HomeWeather> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text("Weather the Day")),
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          title: Center(child: Text("Weather the Day",style: TextStyle(color: Colors.black),)),
         ),
         body: Center(
           child: FutureBuilder<WeatherResult>(
@@ -58,7 +60,9 @@ class _ContentPageState extends State<ContentPage> {
 
   @override
   Widget build(BuildContext context) {
+
     double maxWindSpeed = 25.0;
+
     final wind = LinearProgressIndicator(
       backgroundColor: Colors.white24,
       value: widget.weather.windSpeed / maxWindSpeed,
@@ -68,155 +72,163 @@ class _ContentPageState extends State<ContentPage> {
       backgroundColor: Colors.white24,
       value: widget.weather.pressure / maxPressure,
     );
+
     final humidityc = LinearProgressIndicator(
       backgroundColor: Colors.white24,
       value: widget.weather.humidity / 100.0,
     );
 
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          //-------City------------//
+        body: Container(
+          color:Colors.white70,
+          //decoration:BoxDecoration(image: DecorationImage(image:AssetImage('assets/back.png'),fit: BoxFit.cover)),
+          child: Column(
+          children: <Widget>[
 
-          SizedBox(
-            height: 30,
-          ),
-
-          Text(
-            widget.weather.name,
-            style: TextStyle(
-              fontSize: 34,
-              color: Colors.black,
+            //-------------Date----------------//
+            SizedBox(
+              height: 20,
             ),
-          ),
-          //-------------Date----------------//
-          Text(Utilities.date(widget.weather.dateTime),
+            Text(Utilities.date(widget.weather.dateTime),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black87,
+                )),
+            SizedBox(
+              height: 15,
+            ),
+    //--------------------City--------------------------//
+            Text(
+              widget.weather.name,
               style: TextStyle(
-                fontSize: 12,
-                color: Colors.black87,
-              )),
-
-          //--------------temperature-------------//
-
-          Text(widget.weather.temperature.toString() + "°C",
-              style: TextStyle(
-                fontSize: 72,
-                color: Colors.black87,
-              )),
-
-         //--------------description-------------------//
-          Hero(
-              tag: 'hero',
-              child:
-                  Image.asset('assets/${widget.weather.icon}.png', scale: 0.7)),
-          SizedBox(width: 9),
-
-          Text(widget.weather.description,style: TextStyle(fontSize: 19,color: Colors.black87, )),
-
-          SizedBox(height:30),
-
-          //-------------------------Ather--------------------------------//
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              //------------------------Wind----------------//
-              Container(
-                margin: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    Text("Wind",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black87,
-                        )),
-                    SizedBox(height: 12),
-                    Text(widget.weather.windSpeed.toString(),
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.black87,
-                        )),
-                    SizedBox(height: 10),
-                    Text("m/s",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black87,
-                        )),
-                    SizedBox(height: 7),
-                    SizedBox(
-                      height: 2,
-                      width: 80,
-                      child: wind,
-                    ),
-                  ],
-                ),
+                fontSize: 34,
+                color: Colors.black,
               ),
-              //----------------------Pressure-----------------//
-              Container(
-                margin: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    Text("Pressure",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black87,
-                        )),
-                    SizedBox(height: 12),
-                    Text(widget.weather.pressure.toString(),
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.black87,
-                        )),
-                    SizedBox(height: 10),
-                    Text("hPa",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black87,
-                        )),
-                    SizedBox(height: 7),
-                    SizedBox(
-                      height: 2,
-                      width: 80,
-                      child: pressurec,
-                    ),
-                  ],
-                ),
-              ),
-              //------------------------Humidity--------------//
-              Container(
-                margin: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    Text("Humidity",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black87,
-                        )),
-                    SizedBox(height: 12),
-                    Text(widget.weather.humidity.toString(),
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.black87,
-                        )),
-                    SizedBox(height: 10),
-                    Text("%",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black87,
-                        )),
-                    SizedBox(height: 7),
-                    SizedBox(
-                      height: 2,
-                      width: 80,
-                      child: humidityc,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
 
-        ],
+            //--------------temperature-------------//
+
+            Text(widget.weather.temperature.toString() + "°C",
+                style: TextStyle(
+                  fontSize: 72,
+                  color: Colors.black87,
+                )),
+
+           //--------------description-------------------//
+            Hero(
+                tag: 'hero',
+                child:
+                    Image.asset('assets/${widget.weather.icon}.png', width:100,height: 100,)),
+
+            SizedBox(width: 9),
+
+            Text(widget.weather.description,style: TextStyle(fontSize: 19,color: Colors.black87, )),
+
+            SizedBox(height:30),
+
+            //-------------------------Ather--------------------------------//
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                //------------------------Wind----------------//
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text("Wind",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black87,
+                          )),
+                      SizedBox(height: 12),
+                      Text(widget.weather.windSpeed.toString(),
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.black87,
+                          )),
+                      SizedBox(height: 10),
+                      Text("m/s",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black87,
+                          )),
+                      SizedBox(height: 7),
+                      SizedBox(
+                        height: 2,
+                        width: 80,
+                        child: wind,
+                      ),
+                    ],
+                  ),
+                ),
+                //----------------------Pressure-----------------//
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text("Pressure",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black87,
+                          )),
+                      SizedBox(height: 12),
+                      Text(widget.weather.pressure.toString(),
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.black87,
+                          )),
+                      SizedBox(height: 10),
+                      Text("hPa",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black87,
+                          )),
+                      SizedBox(height: 7),
+                      SizedBox(
+                        height: 2,
+                        width: 80,
+                        child: pressurec,
+                      ),
+                    ],
+                  ),
+                ),
+                //------------------------Humidity--------------//
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text("Humidity",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black87,
+                          )),
+                      SizedBox(height: 12),
+                      Text(widget.weather.humidity.toString(),
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.black87,
+                          )),
+                      SizedBox(height: 10),
+                      Text("%",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black87,
+                          )),
+                      SizedBox(height: 7),
+                      SizedBox(
+                        height: 2,
+                        width: 80,
+                        child: humidityc,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+          ],
       ),
+        ),
       floatingActionButton: FloatingActionButton.extended(
         label: Text("ForecastPage"),
         onPressed: ()
