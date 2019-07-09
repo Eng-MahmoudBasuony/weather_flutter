@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:weather_flutter/Utilities/Utilities.dart';
 import 'package:weather_flutter/model/weather.dart';
 import 'package:weather_flutter/model/weather_result.dart';
@@ -32,23 +34,31 @@ class _HomeWeatherState extends State<HomeWeather> {
           elevation: 0.0,
           title: Center(child: Text("Weather the Day",style: TextStyle(color: Colors.indigoAccent,fontSize: 25),)),
         ),
-        body: Center(
+        body:Center(
           child: FutureBuilder<WeatherResult>(
             future: widget.weatherUseCase.get(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
+            builder: (context, snapshot)
+            {
+              if(snapshot.hasData)
+              {
                 WeatherResult weatherResult = snapshot.data;
                 return ContentPage(weather: weatherResult.weather,weatherResult: weatherResult,);
-              } else if (snapshot.hasError) {
-                return Text(
-                  "${snapshot.error}",
-                );
+              }else if(snapshot.hasError)
+              {
+                return Text("Errro ${snapshot.error}");
               }
               return CircularProgressIndicator();
+
             },
           ),
-        ));
+        )
+    );
   }
+
+
+
+
+
 }
 
 class ContentPage extends StatefulWidget {
@@ -250,3 +260,24 @@ class _ContentPageState extends State<ContentPage> {
     );
   }
 }
+
+
+/*
+body: Center(
+child: FutureBuilder<WeatherResult>(
+future: widget.weatherUseCase.get(),
+builder: (context, snapshot)
+{
+if(snapshot.connectionState==ConnectionState.done)
+{
+WeatherResult weatherResult = snapshot.data;
+return ContentPage(weather: weatherResult.weather,weatherResult: weatherResult,);
+}else if(snapshot.hasError)
+{
+return Text("Errro ${snapshot.error}");
+}
+return CircularProgressIndicator();
+
+},
+),
+));*/

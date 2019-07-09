@@ -22,6 +22,8 @@ class ForecastPage extends StatelessWidget {
           return Card(
             elevation: 3,
             child: ListTile(
+              isThreeLine: true,
+
               contentPadding: EdgeInsets.all(20),
                title: Text(forecast.predictions[index].temperature.toString() + "°C",
                    style: TextStyle(fontSize: 25, color: Colors.black87)),
